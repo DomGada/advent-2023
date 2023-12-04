@@ -1,3 +1,5 @@
+// Starting with the starter code from day1
+
 package main
 
 import (
@@ -9,6 +11,17 @@ import (
 	"unicode"
 )
 
+func IndexOfSubstring(str, subStr string) []int {
+	ret := make([]int, 0, 3)
+	for i := 0; i+len(subStr) <= len(str); i++ {
+		if str[i:i+len(subStr)] == subStr {
+			fmt.Println("Found the substring!")
+			ret = append(ret, i)
+		}
+	}
+	return ret
+}
+
 func final_write(strs []string) {
 	// f, err := os.Create("answer.txt")
 
@@ -17,8 +30,20 @@ func final_write(strs []string) {
 	// 	return
 	// }
 	bigprint := 0
+	myNums := [10]string{"zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"}
 	for i := 0; i < len(strs); i++ {
 		newS := string(strs[i])
+		for k := 0; k < len(myNums); k++ {
+			index := IndexOfSubstring(newS, myNums[k])
+			if len(index) > 0 {
+				for num := 0; num < len(index); num++ {
+					out := []rune(newS)
+					out[index[num]+1] = rune(k + 48)
+					newS = string(out)
+				}
+			}
+		}
+		fmt.Println(newS)
 		myprint := ""
 		for j := 0; j < len(newS); j++ {
 			if unicode.IsDigit([]rune(newS)[j]) {
@@ -69,7 +94,6 @@ func main() {
 		output = append(output, scanner.Text())
 
 	}
-	fmt.Println(output)
 	if err := scanner.Err(); err != nil {
 		log.Fatal(err)
 	}
